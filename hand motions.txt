@@ -1,0 +1,7 @@
+Label, Motion
+0, Noise (start neutral)
+1, Waving
+2, Punch forward
+3, Rotate wrist/circle
+4, Lift upward
+5, Swinging/Strike
