@@ -5,15 +5,37 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA 
+from sklearn.decomposition import PCA
+import glob
+from pathlib import Path 
 
 # ================================
 # 1) Load data
 # ================================
 
-FNAME = "imu_session_20251102_185851.csv" 
-df = pd.read_csv(FNAME)
-X = df.to_numpy()
+
+# Path to your folder containing CSV files
+current_directory = Path.cwd()
+print(current_directory)
+
+# Get all CSV files
+csv_files = glob.glob(str(current_directory) + "/*.csv")
+
+dfs = []
+names = []
+
+# Give each file a cluster lable
+for i, file in enumerate(csv_files):
+    df = pd.read_csv(file)
+    df["motion_id"] = i # numeric label for color mapping
+    dfs.append(df)
+    names.append(Path(file).stem)  # store file name (without extension)
+
+# Read and combine them
+combined_df = pd.concat(dfs, ignore_index=True)
+
+X = combined_df.drop(columns=["motion_id"]).to_numpy()
+labels = combined_df["motion_id"].to_numpy()
 
 # ================================
 # 2) Standardize + PCA 
@@ -54,14 +76,20 @@ pca2 = PCA(n_components=2)
 X_pca2 = pca2.fit_transform(X_scaled)
 
 plt.figure(figsize=(7,5))
-plt.scatter(X_pca2[:, 0], X_pca2[:, 1], alpha=0.6)
+scatter = plt.scatter(X_pca2[:, 0], X_pca2[:, 1], c=labels, cmap="tab10", alpha=0.6)
+
+
+# Add legend
+handles, _ = scatter.legend_elements()
+plt.legend(handles, [f"{names[i]}" for i in range(len(set(labels)))],
+           title="Motions")
+
 plt.xlabel("PC1")
 plt.ylabel("PC2")
 plt.title("PCA 2D Projection (Unlabeled Hand Gesture Data)")
 plt.grid(True, linewidth=0.3)
 plt.tight_layout()
-name = "PCA 2D Projection " + FNAME[:-4]
-plt.savefig(name)
+plt.savefig("PCA 2d Projection")
 plt.show()
 
 # ============================================
@@ -73,11 +101,11 @@ X_pca3 = pca3.fit_transform(X_scaled)
 
 fig = plt.figure(figsize=(8,7))
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(X_pca3[:, 0], X_pca3[:, 1], X_pca3[:, 2], alpha=0.7)
+ax.scatter(X_pca3[:, 0], X_pca3[:, 1], X_pca3[:, 2], c=labels, cmap="tab10", alpha=0.7)
 ax.set_xlabel("PC1")
 ax.set_ylabel("PC2")
 ax.set_zlabel("PC3")
-name = "PCA 3D Projection " + FNAME[:-4]
+name = "PCA 3D Projection"
 ax.set_title("3D PCA Projection")
 #plt.savefig(name)
 plt.show()
