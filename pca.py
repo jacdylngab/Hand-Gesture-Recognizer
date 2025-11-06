@@ -6,36 +6,29 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
-import glob
-from pathlib import Path 
 
 # ================================
 # 1) Load data
 # ================================
 
+df = pd.read_csv("features_all.csv")
 
-# Path to your folder containing CSV files
-current_directory = Path.cwd()
-print(current_directory)
 
-# Get all CSV files
-csv_files = glob.glob(str(current_directory) + "/*.csv")
+# Keep the top 30% activity for each gesture
+top_percent = 0.3
 
-dfs = []
-names = []
+def keep_top30(group):
+    n_keep = int(len(group) * top_percent)
+    return group.sort_values("activity", ascending=False).iloc[:n_keep]
 
-# Give each file a cluster lable
-for i, file in enumerate(csv_files):
-    df = pd.read_csv(file)
-    df["motion_id"] = i # numeric label for color mapping
-    dfs.append(df)
-    names.append(Path(file).stem)  # store file name (without extension)
+# Keep only the top 30%
+results = df.groupby("src", group_keys=False).apply(keep_top30)
 
-# Read and combine them
-combined_df = pd.concat(dfs, ignore_index=True)
+X = results.drop(columns=["src"]).to_numpy()
 
-X = combined_df.drop(columns=["motion_id"]).to_numpy()
-labels = combined_df["motion_id"].to_numpy()
+names = [label[:-4] for label in results["src"].unique()]
+label_to_int = {name : i for i, name in enumerate(names)}
+labels = np.array([label_to_int[l[:-4]] for l in results["src"]])
 
 # ================================
 # 2) Standardize + PCA 
@@ -101,7 +94,13 @@ X_pca3 = pca3.fit_transform(X_scaled)
 
 fig = plt.figure(figsize=(8,7))
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(X_pca3[:, 0], X_pca3[:, 1], X_pca3[:, 2], c=labels, cmap="tab10", alpha=0.7)
+scatter = ax.scatter(X_pca3[:, 0], X_pca3[:, 1], X_pca3[:, 2], c=labels, cmap="tab10", alpha=0.7)
+
+# Add legend
+handles, _ = scatter.legend_elements()
+plt.legend(handles, [f"{names[i]}" for i in range(len(set(labels)))],
+           title="Motions")
+
 ax.set_xlabel("PC1")
 ax.set_ylabel("PC2")
 ax.set_zlabel("PC3")
