@@ -29,8 +29,8 @@ X = results.drop(columns=["src"]).to_numpy()
 # =========================
 
 # DBSCAN params (tune eps for your data; try 0.5–2.0)
-EPS = 1.5
-MINPTS = 60
+EPS = 2.0
+MINPTS = 100
 RANDOM_STATE = 42
 
 scaler = StandardScaler().fit(X)

@@ -40,6 +40,7 @@ pca_full = PCA().fit(X_scaled)                  # Full PCA fit. Computes princip
 X_all = pca_full.transform(X_scaled)            # Full scores. Projects all data onto these new axes (principal components)
 exp_var = pca_full.explained_variance_ratio_    # Gives the fraction of the total variance explained by each Principal Component
 
+"""
 # ============================================
 # 3) Scree Plot (explained variance)
 # ============================================
@@ -56,8 +57,9 @@ plt.legend()
 plt.tight_layout()
 plt.savefig("PCA Scree Plot")
 plt.show()
+"""
 
-print(f"Components needed for 95% variance: {np.argmax(np.cumsum(exp_var) >= 0.95) + 1}")
+#print(f"Components needed for 95% variance: {np.argmax(np.cumsum(exp_var) >= 0.95) + 1}")
 
 # ============================================
 # 4) 2D PCA Projection for visual intuition
@@ -82,7 +84,8 @@ plt.ylabel("PC2")
 plt.title("PCA 2D Projection (Unlabeled Hand Gesture Data)")
 plt.grid(True, linewidth=0.3)
 plt.tight_layout()
-plt.savefig("PCA 2d Projection")
+#plt.savefig("PCA 2d Projection")
+plt.savefig("PCA 2d Projection Non-Stop")
 plt.show()
 
 # ============================================
