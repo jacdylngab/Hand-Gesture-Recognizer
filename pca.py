@@ -75,9 +75,16 @@ scatter = plt.scatter(X_pca2[:, 0], X_pca2[:, 1], c=labels, cmap="tab10", alpha=
 
 
 # Add legend
-handles, _ = scatter.legend_elements()
-plt.legend(handles, [f"{names[i]}" for i in range(len(set(labels)))],
-           title="Motions")
+# Unique label indices in the order they appear
+unique_labels = np.unique(labels)
+
+# Manually make legend handles
+for lab in unique_labels:
+    plt.scatter([], [], c=[plt.cm.tab10(lab / max(unique_labels))],
+                label=names[lab], alpha=0.6)
+
+plt.legend(title="Motions", bbox_to_anchor=(1.05, 1), loc="upper left")
+
 
 plt.xlabel("PC1")
 plt.ylabel("PC2")
@@ -99,10 +106,14 @@ fig = plt.figure(figsize=(8,7))
 ax = fig.add_subplot(111, projection='3d')
 scatter = ax.scatter(X_pca3[:, 0], X_pca3[:, 1], X_pca3[:, 2], c=labels, cmap="tab10", alpha=0.7)
 
-# Add legend
-handles, _ = scatter.legend_elements()
-plt.legend(handles, [f"{names[i]}" for i in range(len(set(labels)))],
-           title="Motions")
+# Manual legend
+unique_labels = np.unique(labels)
+for lab in unique_labels:
+    ax.scatter([], [], [], c=[plt.cm.tab20(lab / max(unique_labels))],
+               label=names[lab], alpha=0.7)
+
+plt.legend(title="Motions", bbox_to_anchor=(1.05, 1), loc="upper left")
+
 
 ax.set_xlabel("PC1")
 ax.set_ylabel("PC2")
