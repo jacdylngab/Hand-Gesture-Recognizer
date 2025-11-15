@@ -99,4 +99,6 @@ def plot_decision_boundary(model, X, y, title, ax, encoder=None):
 fig, axes = plt.subplots(1, 2, figsize=(10, 4.5), constrained_layout=True)
 plot_decision_boundary(forest_pca, X_train_pca2, y_train, "TRAIN", axes[0], encoder)
 plot_decision_boundary(forest_pca, X_test_pca2,  y_test,  "TEST",  axes[1], encoder)
+saving_name = f"Decision Boundary.png"
+plt.savefig(saving_name)
 plt.show()

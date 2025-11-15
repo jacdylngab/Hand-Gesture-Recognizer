@@ -48,7 +48,7 @@ def displaying_the_confusion_matrix(y_pred, y_test_or_train, encoder, t):
     disp.plot(cmap="Blues", ax=plt.gca())
     plt.title(f"Confusion Matrix - Random Forest ({t})")
     plt.tight_layout()
-    saving_name = f"Random Forest ({t}).png"
+    saving_name = f"Random Forest Confusion Matrix ({t}).png"
     plt.savefig(saving_name)
     plt.show()
 
