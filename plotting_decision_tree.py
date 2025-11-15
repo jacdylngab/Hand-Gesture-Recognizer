@@ -42,7 +42,7 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 # ==============================================================
-# 4) PCA
+# 5) PCA
 # ==============================================================
 
 pca2 = PCA(n_components=2)
@@ -53,7 +53,7 @@ X_test_pca2 = pca2.transform(X_test_scaled)
 
 
 # ==============================================================
-# 4) Random Forest Classifier
+# 6) Random Forest Classifier
 # ==============================================================
 
 forest_pca = RandomForestClassifier(
@@ -72,7 +72,7 @@ yhat_te = forest_pca.predict(X_test_pca2)
 
 
 # ======================================================================================
-# 6. Plot decision boundary
+# 7) Plot decision boundary
 # ======================================================================================
 
 # Plot decision boundaries

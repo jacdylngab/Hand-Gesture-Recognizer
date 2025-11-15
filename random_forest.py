@@ -34,16 +34,22 @@ def saving_results(Model="None", Macro_F1_Test=None, Macro_F1_Train=None, Accura
     else:
         df_new.to_csv(filename, index=False, mode='w', header=True)
 
-def displaying_the_confusion_matrix(y_pred, y_test_or_train, model, t):
+def displaying_the_confusion_matrix(y_pred, y_test_or_train, encoder, t):
     """Displays and optionally saves a confusion matrix plot."""
-    cm = confusion_matrix(y_test_or_train, y_pred)
+
+    # Convert digits -> names
+    y_pred_names = encoder.inverse_transform(y_pred)
+    y_true_names = encoder.inverse_transform(y_test_or_train)
+
+    cm = confusion_matrix(y_true_names, y_pred_names)
+
     plt.figure(figsize=(10, 8))
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=encoder.classes_)
     disp.plot(cmap="Blues", ax=plt.gca())
     plt.title(f"Confusion Matrix - Random Forest ({t})")
     plt.tight_layout()
-    #saving_name = f"Decision Tree ({t}).png"
-    #plt.savefig(saving_name)
+    saving_name = f"Random Forest ({t}).png"
+    plt.savefig(saving_name)
     plt.show()
 
 
@@ -99,7 +105,7 @@ print("\n=== TRAIN ===")
 print(f"Accuracy: {accuracy_score(y_train, yhat_tr):.3f}")
 print(f"F1 (macro): {f1_score(y_train, yhat_tr, average='macro'):.3f}")
 print("Confusion matrix:\n", confusion_matrix(y_train, yhat_tr))
-displaying_the_confusion_matrix(y_pred=yhat_tr, y_test_or_train=y_train, model=forest, t="TRAIN")
+displaying_the_confusion_matrix(y_pred=yhat_tr, y_test_or_train=y_train, encoder=encoder, t="TRAIN")
 
 
 # ----------------------- TEST ----------------------
@@ -107,7 +113,7 @@ print("\n=== TEST ===")
 print(f"Accuracy: {accuracy_score(y_test, yhat_te):.3f}")
 print(f"F1 (macro): {f1_score(y_test, yhat_te, average='macro'):.3f}")
 print("Confusion matrix:\n", confusion_matrix(y_test, yhat_te))
-displaying_the_confusion_matrix(y_pred=yhat_te, y_test_or_train=y_test, model=forest, t="TEST")
+displaying_the_confusion_matrix(y_pred=yhat_te, y_test_or_train=y_test, encoder=encoder, t="TEST")
 print("\nClassification report (TEST):")
 print(classification_report(y_test, yhat_te, digits=3))
 
