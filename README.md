@@ -29,6 +29,7 @@ The five recognized gestures are: Stationary, Waving, Punch Forward, Lift Upward
 
 ## Demo
 
+---
 ## How to Run Locally
 
 1. Clone the repo and navigate to the project:
