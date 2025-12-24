@@ -33,8 +33,8 @@ The five recognized gestures are: Stationary, Waving, Punch Forward, Lift Upward
 
 1. Clone the repo and navigate to the project:
    ```
-   git clone https://github.com/jacdylngab/Hand Gesture Recognizer.git
-   cd Hand Gesture Recognizer
+   git clone https://github.com/jacdylngab/Hand-Gesture-Recognizer.git
+   cd Hand-Gesture-Recognizer
 
 2. Create and activate a virtual environment:
    ```
