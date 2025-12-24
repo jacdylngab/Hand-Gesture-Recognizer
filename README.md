@@ -53,5 +53,5 @@ https://github.com/user-attachments/assets/ec0f5855-7adc-48eb-b058-f0db3b5ef2cd
    
 4. Run the Flask server:
    ```
-   python3 real_time_predictions.py # Use python if required by your system.
+   python3 real-time_predictions.py # Use python if required by your system.
    ```
