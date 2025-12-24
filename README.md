@@ -29,6 +29,8 @@ The five recognized gestures are: Stationary, Waving, Punch Forward, Lift Upward
 
 ## Demo
 
+https://github.com/user-attachments/assets/ec0f5855-7adc-48eb-b058-f0db3b5ef2cd
+
 ---
 ## How to Run Locally
 
