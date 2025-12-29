@@ -31,27 +31,3 @@ The five recognized gestures are: Stationary, Waving, Punch Forward, Lift Upward
 
 https://github.com/user-attachments/assets/ec0f5855-7adc-48eb-b058-f0db3b5ef2cd
 
----
-## How to Run Locally
-
-1. Clone the repo and navigate to the project:
-   ```
-   git clone https://github.com/jacdylngab/Hand-Gesture-Recognizer.git
-   cd Hand-Gesture-Recognizer
-   ```
-
-2. Create and activate a virtual environment:
-   ```
-   python3 -m venv env
-   source env/bin/activate    # On Windows use: env\Scripts\activate
-   ```
-
-3. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-   
-4. Run the Flask server:
-   ```
-   python3 real-time_predictions.py # Use python .\real-time_predictions.py if required by your system.
-   ```
